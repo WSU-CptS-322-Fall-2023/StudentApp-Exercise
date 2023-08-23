@@ -4,9 +4,10 @@ from app import app,db
 from app.forms import ClassForm
 from app.models import Class
 
-@app.before_first_request
+@app.before_request
 def initDB(*args, **kwargs):
-    db.create_all()
+    if app.got_first_request:
+        db.create_all()
 
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
